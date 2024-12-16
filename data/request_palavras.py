@@ -10,7 +10,7 @@ print(conteudo_site.split('\n')[0:5])
 
 with open('palavras_portugues.txt', 'w') as palavras:
     palavras.write(conteudo_site)
-    
+   
     
 
 
