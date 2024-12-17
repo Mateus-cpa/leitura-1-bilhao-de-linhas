@@ -46,4 +46,4 @@ if __name__ == "__main__":
     took = time.time() - start_time
 
     print(df.head())
-    print(f"Processing took: {took:.2f} sec")
+    print(f"Processamento em pandas dura: {took:.2f} sec")
