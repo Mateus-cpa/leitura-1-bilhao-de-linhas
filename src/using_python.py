@@ -46,7 +46,7 @@ def processar_temperaturas(path_do_txt: Path):
     
     end_time = time.time()  # Tempo de término
 
-    time_elapsed = end_time - start_time
+    time_elapsed = end_time - start_time 
 
     print(f"\nProcessamento no módulo python concluído em {time_elapsed:.2f} segundos.")
 
