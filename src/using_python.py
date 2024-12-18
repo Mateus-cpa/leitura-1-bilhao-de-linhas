@@ -2,17 +2,22 @@ from csv import reader
 from collections import defaultdict, Counter
 from tqdm import tqdm  # barra de progresso
 import time
+from pathlib import Path
 
-NUMERO_DE_LINHAS = 1_000_000_000
 
-def processar_temperaturas(path_do_csv):
+NUMERO_DE_LINHAS = 1_000_000
+
+def processar_temperaturas(path_do_txt: Path):
+    print("Iniciando o processamento do arquivo.")
+    start_time = time.time()  # Tempo de início
+
     # utilizando infinito positivo e negativo para comparar
     minimas = defaultdict(lambda: float('inf'))
     maximas = defaultdict(lambda: float('-inf'))
     somas = defaultdict(float)
     medicoes = Counter()
 
-    with open(path_do_txt, 'r') as file:
+    with open(path_do_txt, 'r', encoding='utf-8') as file:
         _reader = reader(file, delimiter=';')
         # usando tqdm diretamente no iterador, isso mostrará a porcentagem de conclusão.
         for row in tqdm(_reader, total=NUMERO_DE_LINHAS, desc="Processando"):
@@ -37,21 +42,25 @@ def processar_temperaturas(path_do_csv):
     # formatando os resultados para exibição
     formatted_results = {station: f"{min_temp:.1f}/{mean_temp:.1f}/{max_temp:.1f}"
                          for station, (min_temp, mean_temp, max_temp) in sorted_results.items()}
+    
+    
+    end_time = time.time()  # Tempo de término
 
-    return formatted_results
+    time_elapsed = end_time - start_time
+
+    print(f"\nProcessamento no módulo python concluído em {time_elapsed:.2f} segundos.")
+
+    return formatted_results, time_elapsed
 
 
 if __name__ == "__main__":
     path_do_txt = "data/measurements.txt"
 
-    print("Iniciando o processamento do arquivo.")
-    start_time = time.time()  # Tempo de início
+   
 
     resultados = processar_temperaturas(path_do_txt)
 
-    end_time = time.time()  # Tempo de término
 
-    for station, metrics in resultados.items():
-        print(station, metrics, sep=': ')
+    #for station, metrics in resultados.items():
+    #    print(station, metrics, sep=': ')
 
-    print(f"\nProcessamento concluído em {end_time - start_time:.2f} segundos.")
