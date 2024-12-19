@@ -16,7 +16,7 @@ def processar_temperaturas(path_do_txt: Path):
             'Hamburg': [12.0],
             'Bulawayo': [8.9],
             'Palembang': [38.8],
-            'St. John\'s': [15.2],
+            'St. John's': [15.2],
             'Cracow': [12.6],
             'Bridgetown': [26.9],
             'Istanbul': [6.2, 23.0], # Note que Istanbul tem duas entradas
@@ -33,7 +33,7 @@ def processar_temperaturas(path_do_txt: Path):
     """
 
     with open(path_do_txt, 'r', encoding="utf-8") as file:
-        _reader = reader(file, delimiter=';')
+        _reader: reader = reader(file, delimiter=';')
         for row in _reader:
             nome_da_station, temperatura = str(row[0]), float(row[1])
             temperatura_por_station[nome_da_station].append(temperatura)
