@@ -6,10 +6,13 @@
 
 # Arquivo full
 .tmp
-measurements1M.txt
-measurements10M.txt
-measurements100M.txt
-measurements.txt
+measurements_1000.txt
+measurements_10000.txt
+measurements_100000.txt
+measurements_1000000.txt
+measurements_10000000.txt
+measurements_100000000.txt
+measurements_1000000000.txt
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
