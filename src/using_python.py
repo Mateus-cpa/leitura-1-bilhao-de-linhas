@@ -5,9 +5,9 @@ import time
 from pathlib import Path
 
 
-NUMERO_DE_LINHAS = 1_000_000
+num_linhas = 1_000_000
 
-def processar_temperaturas(path_do_txt: Path):
+def processar_temperaturas(path_do_txt: Path, num_linhas: int):
     print("Iniciando o processamento do arquivo.")
     start_time = time.time()  # Tempo de início
 
@@ -20,7 +20,7 @@ def processar_temperaturas(path_do_txt: Path):
     with open(path_do_txt, 'r', encoding='utf-8') as file:
         _reader = reader(file, delimiter=';')
         # usando tqdm diretamente no iterador, isso mostrará a porcentagem de conclusão.
-        for row in tqdm(_reader, total=NUMERO_DE_LINHAS, desc="Processando"):
+        for row in tqdm(_reader, total=num_linhas, desc="Processando"):
             nome_da_station, temperatura = str(row[0]), float(row[1])
             medicoes.update([nome_da_station])
             minimas[nome_da_station] = min(minimas[nome_da_station], temperatura)
