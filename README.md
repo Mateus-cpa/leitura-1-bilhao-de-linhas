@@ -81,6 +81,8 @@ Este desafio destacou claramente a eficácia de diversas bibliotecas Python na m
 
 Esses resultados enfatizam a importância de selecionar a ferramenta adequada para análise de dados em larga escala, demonstrando que Python, com as bibliotecas certas, é uma escolha poderosa para enfrentar desafios de big data.
 
+[Gráfico comparativo](https://github.com/Mateus-cpa/leitura-1-bilhao-de-linhas/blob/main/results/gr%C3%A1fico_comparativo.png)
+
 `[em andamento]`
 
 ## Como Executar
