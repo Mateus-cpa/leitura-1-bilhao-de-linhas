@@ -1,8 +1,10 @@
 def create_duckdb(path_do_txt: str, num_linhas: int):
-    import duckdb
+    print(f"Iniciando o processamento do arquivo em DUCKDB do arquivo com {num_linhas} linhas.")
+
     import time
 
     start_time = time.time()
+    import duckdb
 
     path_do_txt = path_do_txt
 
@@ -15,11 +17,10 @@ def create_duckdb(path_do_txt: str, num_linhas: int):
         GROUP BY station
         ORDER BY station"""
 
-    db_duck = duckdb.sql(query = query).show()
+    db_duck = duckdb.sql(query = query)
     
-
     time_elapsed = time.time() - start_time
-    print(f"Duckdb demorou {time_elapsed:.3f} segundos para ler {num_linhas} linhas.")
+    print(f"Processamento no módulo DUCKDB concluído em {time_elapsed:.3f} segundos.\n")
     return db_duck,time_elapsed
 
 
