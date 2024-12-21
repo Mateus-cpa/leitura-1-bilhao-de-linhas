@@ -1,13 +1,14 @@
-from csv import reader
-from collections import defaultdict
-import time
 
-from pathlib import Path
 
-def processar_temperaturas(path_do_txt: Path):
-    print("Iniciando o processamento do arquivo.")
+def processar_temperaturas(path_do_txt: str, num_linhas: int):
+    import time
+    #from pathlib import Path
+    
+    print(f"Iniciando o processamento em OLD PYTHON do arquivo com {num_linhas}.")
     start_time = time.time()  # Tempo de início
-
+    from csv import reader
+    from collections import defaultdict
+     
     temperatura_por_station = defaultdict(list)
 
     """
@@ -38,7 +39,7 @@ def processar_temperaturas(path_do_txt: Path):
             nome_da_station, temperatura = str(row[0]), float(row[1])
             temperatura_por_station[nome_da_station].append(temperatura)
 
-    print("Dados carregados. Calculando estatísticas...")
+    print(f"Dados carregados em OLD PYTHON com {num_linhas}. Calculando estatísticas...")
 
     # Dicionário para armazenar os resultados calculados
     results = {}
@@ -50,7 +51,7 @@ def processar_temperaturas(path_do_txt: Path):
         max_temp = max(temperatures)
         results[station] = (min_temp, mean_temp, max_temp)
 
-    print("Estatística calculada. Ordenando...")
+    print(f"Estatística calculada em OLD PYTHON de {num_linhas}. Ordenando...")
     # Ordenando os resultados pelo nome da estação
     sorted_results = dict(sorted(results.items()))
 
@@ -60,14 +61,11 @@ def processar_temperaturas(path_do_txt: Path):
     end_time = time.time()  # Tempo de término
 
     time_elapsed = end_time - start_time
-    print(f"Processamento no módulo python_old concluído em {time_elapsed:.2f} segundos.")
+    print(f"Processamento no módulo OLD PYTHON concluído em {time_elapsed:.3f} segundos.\n")
 
     return formatted_results, time_elapsed
 
 if __name__ == "__main__":
-
-    # 1M 0.38 segundos
-    # 10M 3.96 segundos.
-    path_do_txt: Path = Path("data/measurements.txt")
-    # 100M > 5 minutos.
-    resultados = processar_temperaturas(path_do_txt)
+    
+    path_do_txt: str = "data/measurements.txt"
+    resultados = processar_temperaturas(path_do_txt= "data/measurements_10000.txt", num_linhas=10000)
