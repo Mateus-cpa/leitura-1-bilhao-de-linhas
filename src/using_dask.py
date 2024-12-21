@@ -1,11 +1,14 @@
-import dask
-import dask.dataframe as dd
+def create_dask_df(path_do_txt: str, num_linhas: int):
+    import dask
+    import dask.dataframe as dd
+    import time
 
-def create_dask_df():
+    start_time = time.time()
+
     dask.config.set({'dataframe.query-planning': True})
     # Configurando o Dask DataFrame para ler o arquivo CSV
     # Como o arquivo não tem cabeçalho, especificamos os nomes das colunas manualmente
-    df = dd.read_csv("data/measurements.txt", sep=";", header=None, names=["station", "measure"])
+    df = dd.read_csv(path_do_txt, sep=";", header=None, names=["station", "measure"])
     
     # Agrupando por 'station' e calculando o máximo, mínimo e média de 'measure'
     # O Dask realiza operações de forma lazy, então esta parte apenas define o cálculo
@@ -16,17 +19,18 @@ def create_dask_df():
     # ou se for essencial para a próxima etapa do processamento
     # A ordenação será realizada após a chamada de .compute(), se necessário
 
-    return grouped_df
+    # O cálculo real e a ordenação são feitos aqui
+    result_df = grouped_df.compute().sort_values("station")
+
+    time_elapsed = time.time() - start_time
+
+    print(f"Dask demorou {time_elapsed:.3f} segundos para ler {num_linhas}")
+
+    return result_df, time_elapsed
 
 if __name__ == "__main__":
-    import time
-
-    start_time = time.time()
-    df = create_dask_df()
     
-    # O cálculo real e a ordenação são feitos aqui
-    result_df = df.compute().sort_values("station")
-    took = time.time() - start_time
+    df = create_dask_df(path_do_txt="data/measurements_10000.txt", num_linhas=10000)   
 
-    print(result_df)
-    print(f"Dask Took: {took:.2f} sec")
+    print(df)
+    
