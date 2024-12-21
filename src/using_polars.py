@@ -5,10 +5,12 @@
 # https://x.com/mr_le_fox/status/1741893400947839362?s=20
 
 def create_polars_df(path_do_txt, num_linhas: int):
-    import polars as pl
+    print(f'Iniciando processamento em POLARS com {num_linhas} linhas.')
     import time
 
     start_time = time.time()
+    
+    import polars as pl
 
     pl.Config.set_streaming_chunk_size(4000000)
 
@@ -18,6 +20,8 @@ def create_polars_df(path_do_txt, num_linhas: int):
                             new_columns=["station", "measure"], 
                             schema={"station": pl.String, "measure": pl.Float64})
     df_polars = df_polars.group_by(by="station")
+    print(f'Processando arquivo em POLARS com {num_linhas} linhas.')
+
     df_polars = df_polars.agg(
             max = pl.col("measure").max(),
             min = pl.col("measure").min(),
@@ -26,7 +30,7 @@ def create_polars_df(path_do_txt, num_linhas: int):
     df_polars = df_polars.collect(streaming=True)
     
     time_elapsed = time.time() - start_time
-    print(f"Polars demorou {time_elapsed:.2f} segundos para ler {num_linhas}.")
+    print(f"Processamento no módulo POLARS concluído em {time_elapsed:.3f} segundos.\n")
     return (df_polars, time_elapsed)
 
 if __name__ == "__main__":
