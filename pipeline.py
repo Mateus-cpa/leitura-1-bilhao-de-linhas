@@ -4,14 +4,16 @@ import src.using_python as new_python
 from src.using_pandas import create_df_with_pandas as pandas
 from src.using_polars import create_polars_df as polars
 from src.using_duckdb import create_duckdb as duck
+from src.using_dask import create_dask_df as dask
 
 import pandas as pd
 import matplotlib.pyplot as plt
 
-
-#create_files.main()
-
-lista_num_linhas = [10000,100000,1000000]#,10000000,100000000] #adicionar Bilhão após testes ,1000000000]
+"""gerar_txt = input('Deseja gerar os arquivos de txt de 10_000 a 1_000_000_000 de linhas[S para sim]? ').upper()
+if (gerar_txt == 'S' or gerar_txt == 'SIM'):
+    create_files.main()
+"""
+lista_num_linhas = [10000,100000,1000000,10000000,100000000,1000000000]
 
 df_tempos_de_execucao = pd.DataFrame(columns=['num_linhas', 'metodo', 'tempo (s)'])
 
@@ -21,12 +23,17 @@ for num_linhas in lista_num_linhas:
     path = f"data/measurements_{num_linhas}.txt"
 
     # Processa os dados e obtém os tempos
-    dados_op, tempo_op = old_python.processar_temperaturas(path_do_txt=path)
-    dados_np, tempo_np = new_python.processar_temperaturas(path_do_txt=path, num_linhas=num_linhas)
-    df_final, tempo_pd = pandas(path_do_txt=path, num_linhas=num_linhas)
+    if num_linhas == 1_000_000_000:
+        tempo_op = None #em  bilhão de linhas o programa dá MemoryError
+        tempo_np = None
+        tempo_pd = None
+    else:
+        dados_op, tempo_op = old_python.processar_temperaturas(path_do_txt=path, num_linhas=num_linhas) #MemoryError
+        dados_np, tempo_np = new_python.processar_temperaturas(path_do_txt=path, num_linhas=num_linhas)
+        df_final, tempo_pd = pandas(path_do_txt=path, num_linhas=num_linhas) #ParserError
     df_polars, tempo_pl = polars(path_do_txt=path, num_linhas=num_linhas)
     db_duck, tempo_dk = duck(path_do_txt=path, num_linhas=num_linhas)
-
+    db_dask, tempo_dd = dask(path_do_txt=path, num_linhas=num_linhas)
 
     # Cria um novo DataFrame com os resultados da iteração e concatena com o DataFrame principal
     
@@ -35,6 +42,7 @@ for num_linhas in lista_num_linhas:
     dict_to_append.append({'num_linhas': num_linhas, 'metodo': 'pandas', 'tempo (s)': tempo_pd})
     dict_to_append.append({'num_linhas': num_linhas, 'metodo': 'polars', 'tempo (s)': tempo_pl})
     dict_to_append.append({'num_linhas': num_linhas, 'metodo': 'duckdb', 'tempo (s)': tempo_dk})
+    dict_to_append.append({'num_linhas': num_linhas, 'metodo': 'dask', 'tempo (s)': tempo_dd})
 
     df_to_append = pd.DataFrame(dict_to_append) #transforma dicionário em dataframe
     df_tempos_de_execucao = pd.concat([df_tempos_de_execucao,df_to_append])
@@ -62,5 +70,10 @@ ax.grid(True, linestyle='--', alpha=0.7)
 ax.legend(loc='lower right')
 ax.set_yscale('log') # Escala logarítmica no eixo y 
 ax.set_xscale('log') # Escala logarítmica no eixo x
+
+#Salvar gráfico?
+"""salvar_gráfico = input('Deseja salvar o gráfico [S para sim]? ').upper()
+if (salvar_grafico == 'S' or salvar_grafico == 'SIM'):"""
 plt.savefig('results/gráfico_comparativo.png', dpi=300)
+
 plt.show()
