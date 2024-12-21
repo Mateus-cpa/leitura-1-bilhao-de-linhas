@@ -1,15 +1,16 @@
-from csv import reader
-from collections import defaultdict, Counter
-from tqdm import tqdm  # barra de progresso
-import time
-from pathlib import Path
-
-
 num_linhas = 1_000_000
 
-def processar_temperaturas(path_do_txt: Path, num_linhas: int):
-    print("Iniciando o processamento do arquivo.")
+def processar_temperaturas(path_do_txt: str, num_linhas: int):
+    print(f"Iniciando o processamento em PYTHON do arquivo com {num_linhas} linhas.")
+    import time    
     start_time = time.time()  # Tempo de início
+    from csv import reader
+    from collections import defaultdict, Counter
+    from tqdm import tqdm  # barra de progresso
+    
+
+    #from pathlib import Path
+
 
     # utilizando infinito positivo e negativo para comparar
     minimas = defaultdict(lambda: float('inf'))
@@ -20,14 +21,14 @@ def processar_temperaturas(path_do_txt: Path, num_linhas: int):
     with open(path_do_txt, 'r', encoding='utf-8') as file:
         _reader = reader(file, delimiter=';')
         # usando tqdm diretamente no iterador, isso mostrará a porcentagem de conclusão.
-        for row in tqdm(_reader, total=num_linhas, desc="Processando"):
+        for row in tqdm(_reader, total=num_linhas, desc="Processando Python"):
             nome_da_station, temperatura = str(row[0]), float(row[1])
             medicoes.update([nome_da_station])
             minimas[nome_da_station] = min(minimas[nome_da_station], temperatura)
             maximas[nome_da_station] = max(maximas[nome_da_station], temperatura)
             somas[nome_da_station] += temperatura
 
-    print("Dados carregados. Calculando estatísticas...")
+    print(f"Dados carregados em PYTHON com {num_linhas} linhas. Calculando estatísticas...")
 
     # calculando min, média e max para cada estação
     results = {}
@@ -35,7 +36,7 @@ def processar_temperaturas(path_do_txt: Path, num_linhas: int):
         mean_temp = somas[station] / qtd_medicoes
         results[station] = (minimas[station], mean_temp, maximas[station])
 
-    print("Estatística calculada. Ordenando...")
+    print(f"Estatística calculada em PTYHON com {num_linhas} linhas. Ordenando...")
     # ordenando os resultados pelo nome da estação
     sorted_results = dict(sorted(results.items()))
 
@@ -44,11 +45,9 @@ def processar_temperaturas(path_do_txt: Path, num_linhas: int):
                          for station, (min_temp, mean_temp, max_temp) in sorted_results.items()}
     
     
-    end_time = time.time()  # Tempo de término
+    time_elapsed = time.time() - start_time 
 
-    time_elapsed = end_time - start_time 
-
-    print(f"\nProcessamento no módulo python concluído em {time_elapsed:.2f} segundos.")
+    print(f"Processamento no módulo PYTHON concluído em {time_elapsed:.3f} segundos.\n")
 
     return formatted_results, time_elapsed
 
@@ -56,11 +55,4 @@ def processar_temperaturas(path_do_txt: Path, num_linhas: int):
 if __name__ == "__main__":
     path_do_txt = "data/measurements.txt"
 
-   
-
     resultados = processar_temperaturas(path_do_txt)
-
-
-    #for station, metrics in resultados.items():
-    #    print(station, metrics, sep=': ')
-
