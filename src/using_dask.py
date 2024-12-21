@@ -1,9 +1,12 @@
 def create_dask_df(path_do_txt: str, num_linhas: int):
+    print(f"Iniciando o processamento do arquivo em DASK do arquivo com {num_linhas} linhas.")
+    import time    
+    start_time = time.time()
     import dask
     import dask.dataframe as dd
-    import time
 
-    start_time = time.time()
+
+    
 
     dask.config.set({'dataframe.query-planning': True})
     # Configurando o Dask DataFrame para ler o arquivo CSV
@@ -24,7 +27,7 @@ def create_dask_df(path_do_txt: str, num_linhas: int):
 
     time_elapsed = time.time() - start_time
 
-    print(f"Dask demorou {time_elapsed:.3f} segundos para ler {num_linhas}")
+    print(f"Processamento no módulo DASK concluído em {time_elapsed:.3f} segundos.\n")
 
     return result_df, time_elapsed
 
