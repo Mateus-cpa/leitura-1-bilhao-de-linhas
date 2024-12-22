@@ -1,11 +1,17 @@
-# Um Bilhão de Linhas: Desafio de Processamento de Dados com Python
+# `Um Bilhão de Linhas: Desafio de Processamento de Dados com Python`
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
 
-## Introdução
+## `Introdução`
 
-O objetivo deste projeto é demonstrar como processar eficientemente um arquivo de dados massivo contendo 1 bilhão de linhas (~14GB), especificamente para calcular estatísticas (Incluindo agregação e ordenação que são operações pesadas) utilizando Python. 
+O objetivo deste projeto é demonstrar comparações de processamento eficientemente arquivos de dados contendo:
+- 10 mil linhas (~166 KB);
+- 100 mil linhas (~1,6 MB);
+- 1 milhão de linhas (~16,5 MB);
+- 10 milhões de linhas (~165,7 MB);
+- 100 milhões de linhas (~1,6 GB);
+- 1 bilhão de linhas (~16 GB), especificamente para calcular estatísticas (Incluindo agregação e ordenação que são operações pesadas) utilizando Python. 
 
 Este desafio foi inspirado no [The One Billion Row Challenge](https://github.com/gunnarmorling/1brc), originalmente proposto para Java.
 
@@ -26,7 +32,7 @@ Conakry;31.2
 Istanbul;23.0
 ```
 
-O desafio é desenvolver um programa Python capaz de ler esse arquivo e calcular a temperatura mínima, média (arredondada para uma casa decimal) e máxima para cada estação, exibindo os resultados em uma tabela ordenada por nome da estação.
+O desafio é desenvolver um programa Python capaz de ler esse arquivo e calcular a temperatura mínima, média (arredondada para uma casa decimal) e máxima para cada estação, processando os resultados em uma tabela ordenada por nome da estação.
 
 | station      | min_temperature | mean_temperature | max_temperature |
 |--------------|-----------------|------------------|-----------------|
@@ -60,30 +66,74 @@ Para executar os scripts deste projeto, você precisará das seguintes bibliotec
 * DuckDB: `0.10.0`
 * Dask[complete]: `^2024.2.0`
 
+## Execução
+Foi criado um pipeline que:
+1. Cria os arquivos nas quantidades de linhas acima listadas, replicando a base `weather_Stations.csv`;
+2. Realiza a execução de uma função que realiza a leitura, agrupamento e ordenação utilizando cada uma das 6 tecnologias scriptadas:
+2.1. Python - tecnologia 1
+2.2. Python - tecnologia 2 (default Dict)
+2.3. Pandas
+2.4. Polars
+2.5. DuckDB
+2.6. Dask
+3. Em cada execução acima, para cada quantidade de linhas, foi coletado o tempo de execução em segundos
+4. Agrupar os tempos de execução em um Dataframe e em Gráfico
+
 ## Resultados
 
-Os testes foram realizados em um laptop equipado com um processador Intel Core i7 e 16 GB de RAM. As implementações utilizaram abordagens puramente Python, Pandas, Polars e DuckDB e Dask. Os resultados de tempo de execução para processar o arquivo dediversas quantidades de linhas até 1 bilhão de linhas são apresentados abaixo:
+Os testes foram realizados em um laptop equipado com um processador Intel Core i7 e 16 GB de RAM. As implementações utilizaram abordagens puramente Python, Pandas, Polars e DuckDB e Dask. Os resultados de tempo de execução para processar o arquivo de diversas quantidades de linhas até 1 bilhão de linhas são apresentados abaixo:
 
-| Implementação | Tempo |
-| --- | --- |
-| Bash + awk | x minutos |
-| Python | x minutos |
-| Python + Pandas | x sec |
-| Python + Dask | x sec  |
-| Python + Polars | x sec |
-| Python + Duckdb | x sec |
+
+| num_linhas | metodo | tempo (s) |
+|---|---|---|
+| 10000 | método antigo python | 0.050971 |
+| 10000 | método novo python | 0.114929 |
+| 10000 | pandas | 0.031983 |
+| 10000 | polars | 0.199202 |
+| 10000 | duckdb | 0.033999 |
+| 10000 | dask | 0.727604 |
+| 100000 | método antigo python | 0.183400 |
+| 100000 | método novo python | 0.603653 |
+| 100000 | pandas | 0.231874 |
+| 100000 | polars | 0.057966 |
+| 100000 | duckdb | 0.001001 |
+| 100000 | dask | 0.135921 |
+| 1000000 | método antigo python | 1.373214 |
+| 1000000 | método novo python | 3.773457 |
+| 1000000 | pandas | 2.272710 |
+| 1000000 | polars | 0.161907 |
+| 1000000 | duckdb | 0.001000 |
+| 10000000 | método antigo python | 14.124902 |
+| 10000000 | pandas | 23.693918 |
+| 10000000 | dask | 4.382866 |
+| 100000000 | método antigo python | 159.762853 |
+| 100000000 | polars | 10.824404 |
+| 100000000 | duckdb | 0.002015 |
+| 1000000000 | método novo python | NaN |
+| 1000000000 | pandas | NaN |
+| 1000000000 | dask | 416.673630 |
+| 1000000000 | duckdb | 0.204 |
+| 1000000000 | polars | 176.961 |
+
 
 ![alt text](results/gráfico_comparativo.png)
 
+## Explicação dos resultados
+Executar 1 Bilhão de linhas (16BG) demanda recursos de hardware ou de ferramentas mais avançados para executar dentro do limite do processador físico do computador para os métodos tradicionais, enquanto bibliotecas como Dask, Polars e DuckDB provaram ser excepcionalmente eficazes, requerendo menos linhas de código devido à sua capacidade inerente de distribuir os dados em "lotes em streaming" de maneira mais eficiente.
+
+- Na tecnologia antiga de Python retorna `MemoryError`, visto a limitação física.
+- Na tecnologia novo Python o tempo de execução passou de 1h e não foi computado.
+- Na tecnologia Pandas, retornou `ParserError`, visto a limitação física de memória RAM.
+
+Para todos os casos acima, há possibilidades de contornar o problema, como implementar o processamento em "lotes", mas foge ao escopo deste projeto.
+
 ## Conclusão
 
-Este desafio destacou claramente a eficácia de diversas bibliotecas Python na manipulação de grandes volumes de dados. Métodos tradicionais como Bash (25 minutos), Python puro (20 minutos) e até mesmo o Pandas (5 minutos) demandaram uma série de táticas para implementar o processamento em "lotes", enquanto bibliotecas como Dask, Polars e DuckDB provaram ser excepcionalmente eficazes, requerendo menos linhas de código devido à sua capacidade inerente de distribuir os dados em "lotes em streaming" de maneira mais eficiente. O DuckDB se sobressaiu, alcançando o menor tempo de execução graças à sua estratégia de execução e processamento de dados.
+[em andamento]
 
-Esses resultados enfatizam a importância de selecionar a ferramenta adequada para análise de dados em larga escala, demonstrando que Python, com as bibliotecas certas, é uma escolha poderosa para enfrentar desafios de big data.
 
-`[em andamento]`
 
-## Como Executar
+# `Como Executar`
 
 Para executar este projeto e reproduzir os resultados:
 
