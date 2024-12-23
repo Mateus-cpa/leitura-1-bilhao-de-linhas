@@ -58,7 +58,7 @@ O desafio é desenvolver um programa Python capaz de ler esse arquivo e calcular
 | Ürümqi       | -42.1           | 7.4              | 56.7            |
 | İzmir        | -34.4           | 17.9             | 67.9            |
 
-## Dependências
+## `Dependências`
 
 Para executar os scripts deste projeto, você precisará das seguintes bibliotecas:
 
@@ -66,12 +66,12 @@ Para executar os scripts deste projeto, você precisará das seguintes bibliotec
 * DuckDB: `0.10.0`
 * Dask[complete]: `^2024.2.0`
 
-## Execução
+## `Execução`
 Foi criado um pipeline que:
 1. Cria os arquivos nas quantidades de linhas acima listadas, replicando a base `weather_Stations.csv`;
 2. Realiza a execução de uma função que realiza a leitura, agrupamento e ordenação utilizando cada uma das 6 tecnologias scriptadas:
-2.1. Python - tecnologia 1
-2.2. Python - tecnologia 2 (default Dict)
+2.1. Old Python - Default Dict
+2.2. Python - tqdm para dividir a leitura por linhas
 2.3. Pandas
 2.4. Polars
 2.5. DuckDB
@@ -79,59 +79,109 @@ Foi criado um pipeline que:
 3. Em cada execução acima, para cada quantidade de linhas, foi coletado o tempo de execução em segundos
 4. Agrupar os tempos de execução em um Dataframe e em Gráfico
 
-## Resultados
+## `Resultados`
 
 Os testes foram realizados em um laptop equipado com um processador Intel Core i7 e 16 GB de RAM. As implementações utilizaram abordagens puramente Python, Pandas, Polars e DuckDB e Dask. Os resultados de tempo de execução para processar o arquivo de diversas quantidades de linhas até 1 bilhão de linhas são apresentados abaixo:
 
 
-| num_linhas | metodo | tempo (s) |
-|---|---|---|
-| 10000 | método antigo python | 0.050971 |
-| 10000 | método novo python | 0.114929 |
-| 10000 | pandas | 0.031983 |
-| 10000 | polars | 0.199202 |
-| 10000 | duckdb | 0.033999 |
-| 10000 | dask | 0.727604 |
-| 100000 | método antigo python | 0.183400 |
-| 100000 | método novo python | 0.603653 |
-| 100000 | pandas | 0.231874 |
-| 100000 | polars | 0.057966 |
-| 100000 | duckdb | 0.001001 |
-| 100000 | dask | 0.135921 |
-| 1000000 | método antigo python | 1.373214 |
-| 1000000 | método novo python | 3.773457 |
-| 1000000 | pandas | 2.272710 |
-| 1000000 | polars | 0.161907 |
-| 1000000 | duckdb | 0.001000 |
-| 10000000 | método antigo python | 14.124902 |
-| 10000000 | pandas | 23.693918 |
-| 10000000 | dask | 4.382866 |
-| 100000000 | método antigo python | 159.762853 |
-| 100000000 | polars | 10.824404 |
-| 100000000 | duckdb | 0.002015 |
-| 1000000000 | método novo python | NaN |
-| 1000000000 | pandas | NaN |
-| 1000000000 | dask | 416.673630 |
-| 1000000000 | duckdb | 0.204 |
-| 1000000000 | polars | 176.961 |
++--------------+----------------------+--------------+
+|   num_linhas | metodo               |    tempo (s) |
++==============+======================+==============+
+|        10000 | método antigo python |   0.0440323  |
++--------------+----------------------+--------------+
+|        10000 | método novo python   |   0.116838   |
++--------------+----------------------+--------------+
+|        10000 | pandas               |   0.0500596  |
++--------------+----------------------+--------------+
+|        10000 | polars               |   0.465722   |
++--------------+----------------------+--------------+
+|        10000 | duckdb               |   0.149342   |
++--------------+----------------------+--------------+
+|        10000 | dask                 |   0.716945   |
++--------------+----------------------+--------------+
+|       100000 | método antigo python |   0.183095   |
++--------------+----------------------+--------------+
+|       100000 | método novo python   |   0.523328   |
++--------------+----------------------+--------------+
+|       100000 | pandas               |   0.223941   |
++--------------+----------------------+--------------+
+|       100000 | polars               |   0.0714562  |
++--------------+----------------------+--------------+
+|       100000 | duckdb               |   0          |
++--------------+----------------------+--------------+
+|       100000 | dask                 |   0.11944    |
++--------------+----------------------+--------------+
+|      1000000 | método antigo python |   2.05979    |
++--------------+----------------------+--------------+
+|      1000000 | método novo python   |   3.46441    |
++--------------+----------------------+--------------+
+|      1000000 | pandas               |   2.28051    |
++--------------+----------------------+--------------+
+|      1000000 | polars               |   0.181531   |
++--------------+----------------------+--------------+
+|      1000000 | duckdb               |   0          |
++--------------+----------------------+--------------+
+|      1000000 | dask                 |   0.684639   |
++--------------+----------------------+--------------+
+|     10000000 | método antigo python |  15.6528     |
++--------------+----------------------+--------------+
+|     10000000 | método novo python   |  47.059      |
++--------------+----------------------+--------------+
+|     10000000 | pandas               |  24.3276     |
++--------------+----------------------+--------------+
+|     10000000 | polars               |   1.10242    |
++--------------+----------------------+--------------+
+|     10000000 | duckdb               |   0          |
++--------------+----------------------+--------------+
+|     10000000 | dask                 |   4.53047    |
++--------------+----------------------+--------------+
+|    100000000 | método antigo python | 167.339      |
++--------------+----------------------+--------------+
+|    100000000 | método novo python   | 386.274      |
++--------------+----------------------+--------------+
+|    100000000 | pandas               | 521.6        |
++--------------+----------------------+--------------+
+|    100000000 | polars               |  16.5226     |
++--------------+----------------------+--------------+
+|    100000000 | duckdb               |   0.00200224 |
++--------------+----------------------+--------------+
+|    100000000 | dask                 |  75.82       |
++--------------+----------------------+--------------+
+|   1000000000 | método antigo python | nan          |
++--------------+----------------------+--------------+
+|   1000000000 | método novo python   | nan          |
++--------------+----------------------+--------------+
+|   1000000000 | pandas               | nan          |
++--------------+----------------------+--------------+
+|   1000000000 | polars               | 221.303      |
++--------------+----------------------+--------------+
+|   1000000000 | duckdb               |   0.188018   |
++--------------+----------------------+--------------+
+|   1000000000 | dask                 | 483.648      |
++--------------+----------------------+--------------+
 
 
 ![alt text](results/gráfico_comparativo.png)
 
-## Explicação dos resultados
+
+## `Explicação dos resultados`
 Executar 1 Bilhão de linhas (16BG) demanda recursos de hardware ou de ferramentas mais avançados para executar dentro do limite do processador físico do computador para os métodos tradicionais, enquanto bibliotecas como Dask, Polars e DuckDB provaram ser excepcionalmente eficazes, requerendo menos linhas de código devido à sua capacidade inerente de distribuir os dados em "lotes em streaming" de maneira mais eficiente.
 
 - Na tecnologia antiga de Python retorna `MemoryError`, visto a limitação física.
-- Na tecnologia novo Python o tempo de execução passou de 1h e não foi computado.
+- Na tecnologia novo Python o tempo de execução passou de 1 hora e não foi computado.
 - Na tecnologia Pandas, retornou `ParserError`, visto a limitação física de memória RAM.
 
 Para todos os casos acima, há possibilidades de contornar o problema, como implementar o processamento em "lotes", mas foge ao escopo deste projeto.
 
-## Conclusão
+Os valores mais altos no primeiro arquivo (10 mil linhas) se dá pela importação da biblioteca.
 
-[em andamento]
+## `Conclusão`
 
+Sendo o DUCKDB o único que utiliza linguagem similar ao SQL para para realizar a leitura de cada linha, que se mostrou mais eficiente em grandes volumes de dados.
 
+A utilização de métodos não preparados para grandes volumes consomem bastante memória RAM do computador utilizado.
+
+Cada um dos métodos utilizados podem ser melhorados por desenvolvedores que conhecem mais recursos em Python. Fique à vontade de enviar sugestões de melhorias ou outras bibliotecas para incorporar no projeto.
 
 # `Como Executar`
 
