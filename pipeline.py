@@ -49,7 +49,7 @@ for num_linhas in lista_num_linhas:
     df_tempos_de_execucao = pd.concat([df_tempos_de_execucao,df_to_append])
     df_tempos_de_execucao.reset_index()
 
-print(df_tempos_de_execucao.to_markdown(index=False, tablefmt='grid'))
+print(df_tempos_de_execucao.to_markdown(index=False))
 
 # Organiza dataframe para montar o gráfico com valores por linhas
 grouped = df_tempos_de_execucao.groupby('metodo')
