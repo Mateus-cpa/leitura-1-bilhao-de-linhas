@@ -70,14 +70,14 @@ Para executar os scripts deste projeto, você precisará das seguintes bibliotec
 Foi criado um pipeline que:
 1. Cria os arquivos nas quantidades de linhas acima listadas, replicando a base `weather_Stations.csv`;
 2. Realiza a execução de uma função que realiza a leitura, agrupamento e ordenação utilizando cada uma das 6 tecnologias scriptadas:
-2.1. Old Python - Default Dict
-2.2. Python - tqdm para dividir a leitura por linhas
-2.3. Pandas
-2.4. Polars
-2.5. DuckDB
-2.6. Dask
-3. Em cada execução acima, para cada quantidade de linhas, foi coletado o tempo de execução em segundos
-4. Agrupar os tempos de execução em um Dataframe e em Gráfico
+- Old Python - Default Dict
+- Python - tqdm para dividir a leitura por linhas
+- Pandas
+- Polars
+- DuckDB
+- Dask
+3. Em cada execução acima, para cada quantidade de linhas, coleta o tempo de execução em segundos
+4. Agrupa os tempos de execução em um Dataframe e em Gráfico
 
 ## `Resultados`
 
