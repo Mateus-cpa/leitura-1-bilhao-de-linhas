@@ -84,81 +84,44 @@ Foi criado um pipeline que:
 Os testes foram realizados em um laptop equipado com um processador Intel Core i7 e 16 GB de RAM. As implementações utilizaram abordagens puramente Python, Pandas, Polars e DuckDB e Dask. Os resultados de tempo de execução para processar o arquivo de diversas quantidades de linhas até 1 bilhão de linhas são apresentados abaixo:
 
 
-+--------------+----------------------+--------------+
 |   num_linhas | metodo               |    tempo (s) |
-+==============+======================+==============+
+|---|---|---|
 |        10000 | método antigo python |   0.0440323  |
-+--------------+----------------------+--------------+
 |        10000 | método novo python   |   0.116838   |
-+--------------+----------------------+--------------+
 |        10000 | pandas               |   0.0500596  |
-+--------------+----------------------+--------------+
 |        10000 | polars               |   0.465722   |
-+--------------+----------------------+--------------+
 |        10000 | duckdb               |   0.149342   |
-+--------------+----------------------+--------------+
 |        10000 | dask                 |   0.716945   |
-+--------------+----------------------+--------------+
 |       100000 | método antigo python |   0.183095   |
-+--------------+----------------------+--------------+
 |       100000 | método novo python   |   0.523328   |
-+--------------+----------------------+--------------+
 |       100000 | pandas               |   0.223941   |
-+--------------+----------------------+--------------+
 |       100000 | polars               |   0.0714562  |
-+--------------+----------------------+--------------+
 |       100000 | duckdb               |   0          |
-+--------------+----------------------+--------------+
 |       100000 | dask                 |   0.11944    |
-+--------------+----------------------+--------------+
 |      1000000 | método antigo python |   2.05979    |
-+--------------+----------------------+--------------+
 |      1000000 | método novo python   |   3.46441    |
-+--------------+----------------------+--------------+
 |      1000000 | pandas               |   2.28051    |
-+--------------+----------------------+--------------+
 |      1000000 | polars               |   0.181531   |
-+--------------+----------------------+--------------+
 |      1000000 | duckdb               |   0          |
-+--------------+----------------------+--------------+
 |      1000000 | dask                 |   0.684639   |
-+--------------+----------------------+--------------+
 |     10000000 | método antigo python |  15.6528     |
-+--------------+----------------------+--------------+
 |     10000000 | método novo python   |  47.059      |
-+--------------+----------------------+--------------+
 |     10000000 | pandas               |  24.3276     |
-+--------------+----------------------+--------------+
 |     10000000 | polars               |   1.10242    |
-+--------------+----------------------+--------------+
 |     10000000 | duckdb               |   0          |
-+--------------+----------------------+--------------+
 |     10000000 | dask                 |   4.53047    |
-+--------------+----------------------+--------------+
 |    100000000 | método antigo python | 167.339      |
-+--------------+----------------------+--------------+
 |    100000000 | método novo python   | 386.274      |
-+--------------+----------------------+--------------+
 |    100000000 | pandas               | 521.6        |
-+--------------+----------------------+--------------+
 |    100000000 | polars               |  16.5226     |
-+--------------+----------------------+--------------+
 |    100000000 | duckdb               |   0.00200224 |
-+--------------+----------------------+--------------+
 |    100000000 | dask                 |  75.82       |
-+--------------+----------------------+--------------+
 |   1000000000 | método antigo python | nan          |
-+--------------+----------------------+--------------+
 |   1000000000 | método novo python   | nan          |
-+--------------+----------------------+--------------+
 |   1000000000 | pandas               | nan          |
-+--------------+----------------------+--------------+
 |   1000000000 | polars               | 221.303      |
-+--------------+----------------------+--------------+
 |   1000000000 | duckdb               |   0.188018   |
-+--------------+----------------------+--------------+
 |   1000000000 | dask                 | 483.648      |
-+--------------+----------------------+--------------+
 
 
 ![alt text](results/gráfico_comparativo.png)
@@ -202,24 +165,8 @@ Este projeto destaca a versatilidade do ecossistema Python para tarefas de proce
 
 Para rodar o script Bash descrito, você precisa seguir alguns passos simples. Primeiro, assegure-se de que você tenha um ambiente Unix-like, como Linux ou macOS, que suporta scripts Bash nativamente. Além disso, verifique se as ferramentas utilizadas no script (`wc`, `head`, `pv`, `awk`, e `sort`) estão instaladas em seu sistema. A maioria dessas ferramentas vem pré-instalada em sistemas Unix-like, mas `pv` (Pipe Viewer) pode precisar ser instalado manualmente.
 
-### Instalando o Pipe Viewer (pv)
-
-Se você não tem o `pv` instalado, pode facilmente instalá-lo usando o gerenciador de pacotes do seu sistema. Por exemplo:
-
-* No Ubuntu/Debian:
     
-    ```bash
-    sudo apt-get update
-    sudo apt-get install pv
-    ```
-    
-* No macOS (usando [Homebrew](https://brew.sh/)):
-    
-    ```bash
-    brew install pv
-    ```
-    
-### Preparando o Script
+### Preparando o Script (não utilizado neste projeto)
 
 1. Dê permissão de execução para o arquivo script. Abra um terminal e execute:
     
