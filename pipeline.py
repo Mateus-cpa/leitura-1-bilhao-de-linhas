@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 if (gerar_txt == 'S' or gerar_txt == 'SIM'):
     create_files.main()
 """
+
 lista_num_linhas = [10000,100000,1000000,10000000,100000000,1000000000]
 
 df_tempos_de_execucao = pd.DataFrame(columns=['num_linhas', 'metodo', 'tempo (s)'])
@@ -48,9 +49,9 @@ for num_linhas in lista_num_linhas:
     df_tempos_de_execucao = pd.concat([df_tempos_de_execucao,df_to_append])
     df_tempos_de_execucao.reset_index()
 
-print(df_tempos_de_execucao)
+print(df_tempos_de_execucao.to_markdown(index=False, tablefmt='grid'))
 
-# Organiza dataframe para montar o gráfico
+# Organiza dataframe para montar o gráfico com valores por linhas
 grouped = df_tempos_de_execucao.groupby('metodo')
 
 # Gera gráfico de linha
@@ -63,9 +64,9 @@ for name, group in grouped:
         ax.annotate(f"{y:.3f}", (x, y), textcoords="offset points", xytext=(0,10), ha='center')
 
 # Configurando o gráfico
-ax.set_xlabel('Número de Linhas', fontsize=14)
-ax.set_ylabel('Tempo de Execução (segundos)', fontsize=14)
-ax.set_title('Comparação de Desempenho', fontweight='bold')
+ax.set_xlabel('Número de Linhas', fontsize=12)
+ax.set_ylabel('Tempo de Execução (segundos)', fontsize=12)
+ax.set_title('Comparação de Desempenho', fontweight='bold', fontsize=16)
 ax.grid(True, linestyle='--', alpha=0.7)
 ax.legend(loc='lower right')
 ax.set_yscale('log') # Escala logarítmica no eixo y 
